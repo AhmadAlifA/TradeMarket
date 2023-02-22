@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout :: head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="main-body">
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header ('Product')}"></header>
+<main>
+    <div class="grid-container">
+        <form class="filter" th:attr="action=@{/product/index}" method="get">
+            <input type="text" name="name" placeholder="Product Name..." th:attr="value=${searchName}">
+            <button class="blue-button" type="submit">Search</button>
+        </form>
+        <a th:href="@{/product/upsertForm}" class="blue-button create-button">Add New Product</a>
+        <table>
+            <thead>
+            <tr>
+                <th>Action</th>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Price For Buy</th>
+                <th>Price For Sell</th>
+                <th>Satuan</th>
+                <th>Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rows : ${dataGrid}" th:object="${rows}">
+                <td>
+                    <a th:href="@{/product/upsertForm(productId=*{productId})}" class="blue-button update-button">Edit</a>
+                    <a th:href="@{/product/delete(productId=*{productId})}" class="blue-button delete-button">Delete</a>
+                </td>
+                <td th:text="*{productId}"></td>
+                <td th:text="*{productName}"></td>
+                <td th:text="*{priceForBuy}"></td>
+                <td th:text="*{priceForSell}"></td>
+                <td th:text="*{satuan}"></td>
+                <td th:text="*{category}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="7">
+                    <div class="pagination">
+                        <div th:if="${totalPage != 0}">
+                            <a th:each="loop:${#numbers.sequence(1,totalPage)}"
+                               th:text="${loop}"
+                                th:href="@{/product/index(page=${loop},name=${searchName})}"></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{layout :: footer}">
+
+</footer>
+</body>
+</html>

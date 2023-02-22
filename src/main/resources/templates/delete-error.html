@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout :: head}"></head>
+<body class="main-body"}>
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header ('Delete Error')}"></header>
+<main>
+  <div class="fail-container">
+    <p>Ada <span th:text="${dependencies}"></span> <span th:text="${terbaik}"></span>(s) pada databsae yang terkategori
+      dengan <span th:text="${dihapus}"></span> ini, sehingga tidak memungkinkan untuk langsung menghapus <span th:text="${dihapus}"></span> ini.</p>
+    <!--    <p>Pastikan seluruh <span th:text="${terbaik}"></span> yang terkait dengan <span th:text="${dihapus}"></span> ini sudah terhapus seluruhnya,-->
+    <!--      untuk bisa menghapus <span th:text="${dihapus}"></span> ini</p>-->
+  </div>
+  <a class="blue-button" th:href="@{/}">Back to Index</a>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

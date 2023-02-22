@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout :: head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="main-body">
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header (${actionType} + ' Order')}"></header>
+<main>
+    <form class="upsert-form" th:attr="action=@{/order/save}" method="post" th:object="${dto}">
+        <input type="hidden" th:field="*{orderId}">
+        <table>
+            <tbody>
+            <tr>
+                <td><label>Order Date*</label></td>
+                <td>
+                    <input type="date" th:field="*{orderDate}">
+                    <div class="field-validation-error" th:errors="*{orderDate}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Konsumen Name</label></td>
+                <td><input type="text" th:field="*{konsumenName}">
+                    <div class="field-validation-error" th:errors="*{konsumenName}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Product Name</label></td>
+                <td>
+                    </select>
+                    <select th:field="*{productId}" th:if="*{productId == null}">
+                        <option th:value=null>No Specific Product</option>
+                        <option th:each="option: ${productDropdown}" th:value="${option.value}" th:text="${option.text}"></option>
+                    </select>
+                    <select th:field="*{productId}" th:if="*{productId != null}">
+                        <option th:value=null>No Specific Product</option>
+                        <option th:each="option: ${productDropdown}" th:value="${option.value}" th:text="${option.text}"></option>
+                    </select>
+
+                    <div class="field-validation-error" th:errors="*{productId}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Quantity</label></td>
+                <td>
+                    <input type="text" th:field="*{quantity}">
+                    <div class="field-validation-error" th:errors="*{quantity}"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="blue-button" type="submit">Submit</button>
+    </form>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+<script th:src="@{/resources/js/site.js}" defer></script>
+</body>
+
+</html>

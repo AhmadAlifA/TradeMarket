@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout :: head}"></head>
+<body class="main-body">
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header ('Merchandise')}"></header>
+<main>
+    <div class="grid-container">
+        <form class="filter" th:attr="action=@{/order/index}" method="get">
+            <input type="text" name="name" placeholder="Konsumen Name..." th:attr="value=${searchName}">
+            <button class="blue-button" type="submit">Search</button>
+        </form>
+        <a th:href="@{/order/upsertForm}" class="blue-button create-button">Add New Order</a>
+        <table>
+            <thead>
+            <tr>
+                <th>Action</th>
+                <th>Order Id</th>
+                <th>Order Date</th>
+                <th>Konsumen Name</th>
+                <th>Product Id</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${dataGrid}" th:object="${row}">
+                <td>
+                    <a th:href="@{/order/upsertForm(orderId=*{orderId})}" class="blue-button update-button">Edit</a>
+                    <a th:href="@{/order/delete(orderId=*{orderId})}" class="blue-button delete-button">Delete</a>
+                </td>
+                <td th:text="*{orderId}"></td>
+                <td th:text="*{orderDate}"></td>
+                <td th:text="*{konsumenName}"></td>
+                <td th:text="*{productId}"></td>
+                <td th:text="*{quantity}"></td>
+                <td th:text="*{unitPrice}"></td>
+                <td th:text="*{totalPrice}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="8">
+                    <div class="pagination">
+                        <div th:text="|page ${currentPage} of ${totalPage}|"></div>
+                        <div th:if="${totalPage != 0}">
+                            <a th:each="loop:${#numbers.sequence(1, totalPage)}"
+                               th:text="${loop}"
+                               th:href="@{/order/history(page=${loop}, searchName=${searchName})}"></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>
